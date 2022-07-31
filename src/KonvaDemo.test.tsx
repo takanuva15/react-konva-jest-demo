@@ -1,14 +1,14 @@
-import {fireEvent, render, screen, waitFor} from "@testing-library/react";
+import {screen, waitFor} from "@testing-library/react";
+import userEvent from '@testing-library/user-event';
 import Konva from "konva";
 import React from 'react';
 import KonvaDemo from "./KonvaDemo";
-import { setupStore, store } from './app/store';
-import {Provider} from "react-redux";
-import userEvent from '@testing-library/user-event'
+import {renderWithProviders} from './test-utils';
 
 test("Konva should render one text", async () => {
-  const myStore = setupStore({ thetext: ''});
-  render(<Provider store={myStore}><KonvaDemo /></Provider>);
+  renderWithProviders(<KonvaDemo />, {
+    preloadedState: { thetext: ''}
+  })
   await waitFor(() => screen.getByRole("heading"));
 
   expect(Konva.stages[0].find('Text')).toHaveLength(0);
