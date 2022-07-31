@@ -1,17 +1,23 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { Stage, Layer, Text } from "react-konva";
+import { selectTheText, updateTheText, useAppDispatch, useAppSelector } from './app/store';
 
 export default function KonvaDemo() {
-  const [ show, setShow ] = useState(false);
+  const theTextState = useAppSelector(selectTheText);
+  const dispatch = useAppDispatch();
   
   return (
     <>
-      <button onClick={() => setShow(true)}>click me</button>
       <h1>Drawing area</h1>
-      <Stage width={window.innerWidth} height={window.innerHeight}>
+      <input
+        type="text"
+        value={theTextState}
+        onChange={(e) => dispatch(updateTheText(e.target.value))}
+        />
+      <p>User typed: {theTextState}</p>
+      <Stage width={500} height={500}>
         <Layer>
-          {show && <Text text="Sample text" />}
+          {theTextState && <Text text={theTextState} />}
         </Layer>
       </Stage>
     </>
