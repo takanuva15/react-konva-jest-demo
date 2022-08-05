@@ -4,9 +4,10 @@ import Konva from "konva";
 import React from 'react';
 import KonvaDemo from "./KonvaDemo";
 import {renderWithProviders} from './test-utils';
+import { selectTheText } from './app/store';
 
 test("Konva should render one text", async () => {
-  renderWithProviders(<KonvaDemo />, {
+  const {store} = renderWithProviders(<KonvaDemo />, {
     preloadedState: { thetext: ''}
   })
   await waitFor(() => screen.getByRole("heading"));
@@ -17,5 +18,6 @@ test("Konva should render one text", async () => {
 
   // console.log(Konva.stages[0].find("Text"));
 
-  expect(Konva.stages[0].find("Text")).toHaveLength(1);
+  expect(Konva.stages[ 0 ].find("Text")).toHaveLength(1);
+  expect(selectTheText(store.getState())).toBe('11');
 });
